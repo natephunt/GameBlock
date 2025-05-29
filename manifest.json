@@ -2,18 +2,19 @@
     "manifest_version": 3,
     "name": "My Awesome Extension",
     "version": "1.0",
-    "description": "A simple Chrome extension example.",
-    "permissions": ["activeTab"],
+    "description": "My tang",
+    "permissions": ["activeTab", "scripting"],
     "background": {
       "service_worker": "background.js"
     },
     "action": {
       "default_popup": "popup.html"
     },
+    "host_permissions": ["http://*/*","https://*/*"],
     "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["grabber.js"]
     }
-  ]
+    ]
 }
