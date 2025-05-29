@@ -1,4 +1,6 @@
-  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+// nathan's background script for the Chrome extension
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete') {
     console.log("we doing it");
     chrome.scripting.executeScript({
@@ -7,7 +9,7 @@
         args: ["please answer exactly yes or no for this question: Based on the following html document, would you say that it is for a gaming website?     ", "AIzaSyAbmwzVvnL1eBuuphxwIgImz-xCcSFldHs"]
     });  }
     console.log("gogo");
-  });
+});
   
 async function sendHttpRequestToGemini(prompt, apiKey) {
     var documentString = document.documentElement.outerHTML;
@@ -53,7 +55,14 @@ async function sendHttpRequestToGemini(prompt, apiKey) {
         // remove the current document and replace it with the new HTML
         document.documentElement.remove();
         const newHtmlElement = document.createElement('html');
-        newHtmlElement.innerHTML = "ur not allowed to access this page!!!";
+
+        const blockedPage = chrome.runtime.getURL('blocked.html');
+        const blockedPageResponse = await fetch(blockedPage);
+        const blockedPageText = await blockedPageResponse.text();
+
+        console.log("blockedPageResponse: ", blockedPageText);
+
+        newHtmlElement.innerHTML = blockedPageText;
         document.appendChild(newHtmlElement);
     }
     else if (answer == "no" || answer == "No"){
@@ -65,9 +74,10 @@ async function sendHttpRequestToGemini(prompt, apiKey) {
 
     console.log("start" + data.candidates[0].content.parts[0].text.trimEnd() + "end" + answer + "superend");
     return data.candidates[0].content.parts[0].text;
+
     } catch (error) {
-    console.error('Error sending HTTP request to Gemini:', error);
-    // Handle error in your UI
+        console.error('Error sending HTTP request to Gemini:', error);
+        // Handle error in your UI
     }
 }
 

@@ -16,5 +16,11 @@
       "matches": ["<all_urls>"],
       "js": ["grabber.js"]
     }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["blocked.html"],
+        "matches": ["<all_urls>"]
+      }
     ]
 }
