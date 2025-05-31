@@ -6,7 +6,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     chrome.scripting.executeScript({
         target: { tabId: tabId },
         function: sendHttpRequestToGemini,
-        args: ["please answer exactly yes or no for this question: Based on the following html document, would you say that it is for a gaming website?     ", "AIzaSyAbmwzVvnL1eBuuphxwIgImz-xCcSFldHs"]
+        args: ["please answer exactly yes or no for this question: Based on the following html document, would you say that it is for a gaming website?     ", "API KEY HERE"]
+        // you need to add your API key as the second argument
     });  }
     console.log("gogo");
 });
@@ -60,7 +61,7 @@ async function sendHttpRequestToGemini(prompt, apiKey) {
         const blockedPageResponse = await fetch(blockedPage);
         const blockedPageText = await blockedPageResponse.text();
 
-        console.log("blockedPageResponse: ", blockedPageText);
+        //console.log("blockedPageResponse: ", blockedPageText);
 
         newHtmlElement.innerHTML = blockedPageText;
         document.appendChild(newHtmlElement);
